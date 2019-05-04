@@ -1,5 +1,5 @@
 %USAGE: drawskt(1,3,1,4,1,2) --- show actions 1,2,3 performed by subjects 1,2,3,4 with instances 1 and 2.
-function drawskt(a1,a2,s1,s2,e1,e2)
+function drawskt_new(a1,a2,s1,s2,e1,e2)
 
 J=[20     1     2     1     8    10     2     9    11     3     4     7     7     5     6    14    15    16    17;
     3     3     3     8    10    12     9    11    13     4     7     5     6    14    15    16    17    18    19];
@@ -28,11 +28,20 @@ X=B(:,:,1);
 Z = B(:,:,2);
 Y=B(:,:,3);
 P=B(:,:,4);
-
-for s=1:size(X,2)
+list_j=[2,9,11,13]
+for s=1:size(X,2)      
     S=[X(:,s) Y(:,s) Z(:,s)];
-          
-    h = plot3(S(:,1),S(:,2),S(:,3),'r.','MarkerSize',40,'color','green'); 
+    for i=1:20
+    if ismember(i,list_j)
+        plot3(S(i,1),S(i,2),S(i,3),'r.','MarkerSize',40,'color','red');
+        
+    else
+        plot3(S(i,1),S(i,2),S(i,3),'r.','MarkerSize',40,'color','green');
+    end
+    hold on
+    end
+    hold off
+
     axis equal
 
     xlabel('x-axis')
@@ -44,9 +53,8 @@ for s=1:size(X,2)
         c2=J(2,j);
         line([S(c1,1) S(c2,1)], [S(c1,2) S(c2,2)], [S(c1,3) S(c2,3)],'LineWidth',3,'color','black');
     end
-    title(sprintf('Frame %d',s))
-    pause
     if(mod(s,3) ==0)
-        saveas(gcf,sprintf('Action %d Frame %d.png',a1,s))
+        saveas(gcf,sprintf('action1_user1/Action %d Frame %d.png',a1,s))
     end  
+    end
 end
